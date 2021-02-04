@@ -378,13 +378,13 @@ def fix_data():
 
 def main():
     # ランドマーク設定ファイルが存在するか確認
-    if not os.path.isfile("./Erangel.txt"):
+    if not os.path.isfile("./Erangel.txt") or not os.path.isfile("./Miramar.txt") or not os.path.isfile("./Sanhok.txt") or not os.path.isfile("./Vikendi.txt"):
         print("ランドマーク名設定ファイルが見つかりません")
         set_landmark()
         print("ランドマーク名設定ファイルを作成しました")
 
     while(True):
-        # ランドマークの入力か検索か
+        # モードの選択
         num = input("半角数字を入力してください(登録：0, 検索：1, 修正：2, 終了：3)：")
         while(is_int(num) != True or int(num) not in [0, 1, 2, 3]):
             num = input("日本語読めねえのかカス(もう一度お願いします)：")
