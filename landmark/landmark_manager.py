@@ -60,8 +60,10 @@ def is_int(s):
     """
     try:
         int(s)
+
         return True
     except ValueError:
+
         return False
 
 
@@ -71,33 +73,19 @@ def make_new_file():
         print("終了します")
         exit(1)
 
-    with open("./Erangel.txt", "rb") as f:
-        Erangel = pickle.load(f)
-    with open("./Miramar.txt", "rb") as f:
-        Miramar = pickle.load(f)
-    with open("./Sanhok.txt", "rb") as f:
-        Sanhok = pickle.load(f)
-    with open("./Vikendi.txt", "rb") as f:
-        Vikendi = pickle.load(f)
+    Erangel, Miramar, Sanhok, Vikendi = get_landmark_name()
 
     new_data = [[0 for i in range(len(Erangel + Miramar + Sanhok + Vikendi))]]
-    new_data = pd.DataFrame(new_data, columns=Erangel + Miramar + Sanhok + Vikendi, index=[name])
-    landmark_data = rewrite(new_data.shape[0]-1, new_data)
-    landmark_data.to_csv("./landmark.csv", header=True, index=True, encoding='utf_8_sig')
+    new_data = pd.DataFrame(new_data, columns = Erangel + Miramar + Sanhok + Vikendi, index = [name])
+    landmark_data = rewrite(new_data.shape[0] - 1, new_data)
+    landmark_data.to_csv("./landmark.csv", header = True, index = True, encoding = 'utf_8_sig')
 
 
 def rewrite(team_num, landmark_data):
     """
     各ランドマークへの降下回数を更新
     """
-    with open("./Erangel.txt", "rb") as f:
-        Erangel = pickle.load(f)
-    with open("./Miramar.txt", "rb") as f:
-        Miramar = pickle.load(f)
-    with open("./Sanhok.txt", "rb") as f:
-        Sanhok = pickle.load(f)
-    with open("./Vikendi.txt", "rb") as f:
-        Vikendi = pickle.load(f)
+    Erangel, Miramar, Sanhok, Vikendi = get_landmark_name()
 
     matches = int(input("何試合分入力しますか？(半角数字のみ入力)："))
     for match in range(matches):
@@ -141,14 +129,7 @@ def add_new_team(name, landmark_data):
     """
     新規チームの登録
     """
-    with open("./Erangel.txt", "rb") as f:
-        Erangel = pickle.load(f)
-    with open("./Miramar.txt", "rb") as f:
-        Miramar = pickle.load(f)
-    with open("./Sanhok.txt", "rb") as f:
-        Sanhok = pickle.load(f)
-    with open("./Vikendi.txt", "rb") as f:
-        Vikendi = pickle.load(f)
+    Erangel, Miramar, Sanhok, Vikendi = get_landmark_name()
 
     new_data = [[0 for i in range(len(Erangel + Miramar + Sanhok + Vikendi))]]
     new_data = pd.DataFrame(new_data, columns=Erangel + Miramar + Sanhok + Vikendi, index=[name])
@@ -219,9 +200,9 @@ def landmark_input():
         update_landmark_data(team_name)
 
 
-def search_landmark(n_landmarks=3):
+def get_landmark_name():
     """
-    入力されたチームの各マップで最も降下回数の多い場所を表示
+    ランドマーク一覧を取得
     """
     with open("./Erangel.txt", "rb") as f:
         Erangel = pickle.load(f)
@@ -231,6 +212,15 @@ def search_landmark(n_landmarks=3):
         Sanhok = pickle.load(f)
     with open("./Vikendi.txt", "rb") as f:
         Vikendi = pickle.load(f)
+
+    return Erangel, Miramar, Sanhok, Vikendi
+
+
+def search_landmark(n_landmarks=3):
+    """
+    入力されたチームの各マップで最も降下回数の多い場所を表示
+    """
+    Erangel, Miramar, Sanhok, Vikendi = get_landmark_name()
 
     maps = ["Erangel", "Miramar", "Sanhok", "Vikendi"]
     if os.path.isfile("./landmark.csv") != True:
@@ -310,14 +300,7 @@ def add_new_landmark():
         print("元となるデータが存在しません")
         exit(1)
 
-    with open("./Erangel.txt", "rb") as f:
-        Erangel = pickle.load(f)
-    with open("./Miramar.txt", "rb") as f:
-        Miramar = pickle.load(f)
-    with open("./Sanhok.txt", "rb") as f:
-        Sanhok = pickle.load(f)
-    with open("./Vikendi.txt", "rb") as f:
-        Vikendi = pickle.load(f)
+    Erangel, Miramar, Sanhok, Vikendi = get_landmark_name()
 
     map = input("マップ名を数字で選択してください(1:Erangel, 2:Miramar, 3:Sanhok, 4:Vikendi, 5:終了)：")
     while(is_int(map) != True or int(map) not in [1, 2, 3, 4, 5]):
